@@ -10,14 +10,14 @@ test.describe('Login', () => {
     await loginPage.visit();
   })
 
-  test('Login with incorrect user name and password', async ({ page }) => {
+  test('shows an error for invalid login credentials', async ({ page }) => {
     const { userName, password, error: notRegisteredError } = users.invalid;
     await loginPage.login(userName, password);
     await page.waitForTimeout(1000);
     await expect(page.locator('.woocommerce-error')).toContainText(notRegisteredError);
   })
 
-  test('Login with correct user name and password', async ({ page }) =>{
+  test('logs in successfully with valid credentials', async ({ page }) =>{
     const { userName, password} = users.valid;
     await loginPage.login(userName, password);
     await page.waitForTimeout(1000);
