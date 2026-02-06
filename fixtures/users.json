@@ -1,0 +1,12 @@
+{
+  "invalid": {
+    "userName": "Test",
+    "password": "121212",
+    "error": "The password you entered for the username Test is incorrect."
+  },
+
+  "valid": {
+    "userName": "121212@gmail.com",
+    "password": "789456Mariia!!"
+  }
+}
