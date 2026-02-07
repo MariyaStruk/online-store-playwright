@@ -18,4 +18,20 @@ test.describe('Shop', () => {
     const actualTitle = await productPage.getProductTitle();
     expect(actualTitle).toBe(expectedTitle);
   });
+
+  test('filters products by price range 200 to 300', async () => {
+    const minPrice = 200;
+    const maxPrice = 300;
+
+    await shopPage.adjustPriceFilter(minPrice, maxPrice);
+    await shopPage.clickFilterButton();
+
+    const prices = await shopPage.getAllProductPrices();
+
+    expect(prices.length).toBeGreaterThan(0);
+    for (const price of prices) {
+      expect(price).toBeGreaterThanOrEqual(minPrice);
+      expect(price).toBeLessThanOrEqual(maxPrice);
+    }
+  });
 });
