@@ -1,18 +1,22 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
 export class ShopPage {
   constructor(private readonly page: Page) {}
+
+  private get firstProduct(): Locator {
+    return this.page.locator('.product').first();
+  }
 
   async visit(): Promise<void> {
     await this.page.goto('/');
     await this.page.getByRole('link', { name: 'Shop' }).click();
   }
 
-  async checkFirstProductTitle(): Promise<void> {
-    const firstProduct = await this.page.locator('.product').first();
-    const productTitle = await firstProduct.locator('h3').textContent();
-    await firstProduct.click();
-    const openedProductTitle = await this.page.locator('h1').textContent();
-    expect(openedProductTitle).toBe(productTitle);
+  async getFirstProductTitle(): Promise<string | null> {
+    return this.firstProduct.locator('h3').textContent();
+  }
+
+  async clickFirstProduct(): Promise<void> {
+    await this.firstProduct.click();
   }
 }
