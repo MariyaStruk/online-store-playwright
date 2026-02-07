@@ -49,4 +49,23 @@ export class ShopPage {
     const priceTexts = await this.page.locator('.product .price .woocommerce-Price-amount').allTextContents();
     return priceTexts.map((text) => parseFloat(text.replace(/[^\d.]/g, '')));
   }
+
+  async getProductPrice(index: number): Promise<number> {
+    const priceText = await this.page
+      .locator('.product')
+      .nth(index)
+      .locator('.price .woocommerce-Price-amount')
+      .last()
+      .textContent();
+    return parseFloat(priceText!.replace(/[^\d.]/g, ''));
+  }
+
+  async addProductToCart(index: number): Promise<void> {
+    const product = this.page.locator('.product').nth(index);
+    const addResponse = this.page.waitForResponse((resp) =>
+      resp.url().includes('add_to_cart') || resp.url().includes('add-to-cart'),
+    );
+    await product.locator('.add_to_cart_button').click();
+    await addResponse;
+  }
 }
