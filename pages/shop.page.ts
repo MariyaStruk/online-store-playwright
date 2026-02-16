@@ -68,4 +68,17 @@ export class ShopPage {
     await product.locator('.add_to_cart_button').click();
     await addResponse;
   }
+
+  async getAllProductTitles(): Promise<string[]> {
+    return this.page.locator('.product h3').allTextContents();
+  }
+
+  async getProductTitlesByCategory(category: string): Promise<string[]> {
+    return this.page.locator(`.product.product_cat-${category} h3`).allTextContents();
+  }
+
+  async clickCategoryFilter(categoryName: string): Promise<void> {
+    await this.page.locator('.product-categories a').filter({ hasText: categoryName }).click();
+    await this.page.waitForLoadState('load');
+  }
 }
